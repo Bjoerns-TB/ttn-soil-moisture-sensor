@@ -23,13 +23,29 @@
  3.Sensor is connect to Analog 0 port.
  ****************************************************/
  
-  * ------------------------------------------------------------------------
+ * ------------------------------------------------------------------------
  * Software used : 
  *  - LMIC https://github.com/matthijskooijman/arduino-lmic 
  *  - LowPower library https://github.com/rocketscream/Low-Power
  *  
  * For licenses of the used libraries, check the links above.
  * ------------------------------------------------------------------------ 
+  
+* TheThingsNetwork Payload functions :
+function Decoder(b, port) {
+
+  var batt = (b[0] +250) / 100;
+  var soil = (b[1]  <<8 | b[2]);
+
+
+  return {
+    env: {
+      batt: batt,
+      soil: soil
+    },
+  };
+}
+*/
 
 #include <lmic.h>
 #include <hal/hal.h>
