@@ -109,71 +109,70 @@ int SoilVCC = 9; //Soil Moisture Sensor OUTPUT
 
 void onEvent (ev_t ev) 
 {
-    Print(os_getTime());
-    Print(": ");
-    PrintLn(ev);
+    Serial.print(os_getTime());
+    Serial.print(": ");
     switch(ev) 
     {
         case EV_SCAN_TIMEOUT:
-            //PrintLn(F("EV_SCAN_TIMEOUT"));
+            //Serial.println(F("EV_SCAN_TIMEOUT"));
             break;
         case EV_BEACON_FOUND:
-            //PrintLn(F("EV_BEACON_FOUND"));
+            //Serial.println(F("EV_BEACON_FOUND"));
             break;
         case EV_BEACON_MISSED:
-            //PrintLn(F("EV_BEACON_MISSED"));
+            //Serial.println(F("EV_BEACON_MISSED"));
             break;
         case EV_BEACON_TRACKED:
-            //PrintLn(F("EV_BEACON_TRACKED"));
+            //Serial.println(F("EV_BEACON_TRACKED"));
             break;
         case EV_JOINING:
-            //PrintLn(F("EV_JOINING"));
+            //Serial.println(F("EV_JOINING"));
             break;
         case EV_JOINED:
-            //PrintLn(F("EV_JOINED"));
+            //Serial.println(F("EV_JOINED"));
             LMIC_setLinkCheckMode(0);
             break;
         case EV_RFU1:
-            //PrintLn(F("EV_RFU1"));
+            //Serial.println(F("EV_RFU1"));
             break;
         case EV_JOIN_FAILED:
-            //PrintLn(F("EV_JOIN_FAILED"));
+            //Serial.println(F("EV_JOIN_FAILED"));
             break;
         case EV_REJOIN_FAILED:
-            //PrintLn(F("EV_REJOIN_FAILED"));
+            //Serial.println(F("EV_REJOIN_FAILED"));
             break;
         case EV_TXCOMPLETE:
-            PrintLn(F("EV_TXCOMPLETE"));
+            Serial.println(F("EV_TXCOMPLETE"));
             if (LMIC.txrxFlags & TXRX_ACK)
-              PrintLn(F("R ACK")); // Received ack
+              Serial.println(F("R ACK")); // Received ack
             if (LMIC.dataLen) 
             {
-              PrintLn(F("R "));
-              PrintLn(LMIC.dataLen);
-              PrintLn(F(" bytes")); // of payload
+              Serial.println(F("R "));
+              Serial.println(LMIC.dataLen);
+              Serial.println(F(" bytes")); // of payload
             }            
             // Schedule next transmission
             // os_setTimedCallback(&sendjob, os_getTime()+sec2osticks(TX_INTERVAL), do_send);
             next = true; 
             break;
         case EV_LOST_TSYNC:
-            //PrintLn(F("EV_LOST_TSYNC"));
+            //Serial.println(F("EV_LOST_TSYNC"));
             break;
         case EV_RESET:
-            //PrintLn(F("EV_RESET"));
+            //Serial.println(F("EV_RESET"));
             break;
         case EV_RXCOMPLETE:
             // data received in ping slot
-            //PrintLn(F("EV_RXCOMPLETE"));
+            //Serial.println(F("EV_RXCOMPLETE"));
             break;
         case EV_LINK_DEAD:
-            //PrintLn(F("EV_LINK_DEAD"));
+            //Serial.println(F("EV_LINK_DEAD"));
             break;
         case EV_LINK_ALIVE:
-            //PrintLn(F("EV_LINK_ALIVE"));
+            //Serial.println(F("EV_LINK_ALIVE"));
             break;
          default:
-            //PrintLn(F("Unknown event"));
+            //Serial.println(F("Unknown event"));
             break;
     }
 }
@@ -183,7 +182,7 @@ void do_send(osjob_t* j)
     // Check if there is not a current TX/RX job running
     if (LMIC.opmode & OP_TXRXPEND) 
     {
-        PrintLn(F("OP_TXRXPEND")); //P_TXRXPEND, not sending
+        Serial.println(F("OP_TXRXPEND")); //P_TXRXPEND, not sending
     } 
     else 
     {
@@ -224,7 +223,7 @@ Serial.println(battVoltage);
 
         
         LMIC_setTxData2(1, mydata, sizeof(mydata), 0);
-        PrintLn(F("PQ")); //Packet queued
+        Serial.println(F("PQ")); //Packet queued
     }
     // Next TX is scheduled after TX_COMPLETE event.
 }
